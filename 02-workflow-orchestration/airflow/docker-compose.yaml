@@ -66,6 +66,13 @@ x-airflow-common:
     GCP_PROJECT_ID: 'rock-strength-474020-j5'
     GCP_GCS_BUCKET: 'rock-strength-474020-j5-terra-bucket'
 
+    # For local airflow data ingestion
+    PG_HOST: ${PG_HOST}
+    PG_PORT: ${PG_PORT}
+    PG_USER: ${PG_USER}
+    PG_PASSWORD: ${PG_PASSWORD}
+    PG_DATABASE: ${PG_DATABASE}
+
   volumes:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs

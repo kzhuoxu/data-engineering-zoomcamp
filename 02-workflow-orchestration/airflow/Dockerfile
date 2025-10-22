@@ -14,6 +14,8 @@ USER airflow
 # Copy requirements and install as the airflow user
 COPY --chown=airflow:root requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+# For local airflow data ingestion only
+RUN pip install --no-cache-dir pandas sqlalchemy psycopg2-binary
 
 # Switch back to root for system installations
 USER root
