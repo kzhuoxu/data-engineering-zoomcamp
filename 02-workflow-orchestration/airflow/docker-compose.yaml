@@ -63,15 +63,15 @@ x-airflow-common:
     AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT: 'google-cloud-platform://?extra__google_cloud_platform__key_path=/.google/credentials/google_credentials.json'
 
     # TODO: Please change GCP_PROJECT_ID & GCP_GCS_BUCKET, as per your config
-    GCP_PROJECT_ID: 'rock-strength-474020-j5'
-    GCP_GCS_BUCKET: 'rock-strength-474020-j5-terra-bucket'
+    GCP_PROJECT_ID: ${GCP_PROJECT_ID}
+    GCP_GCS_BUCKET: ${GCP_GCS_BUCKET}
 
     # For local airflow data ingestion
-    PG_HOST: ${PG_HOST}
-    PG_PORT: ${PG_PORT}
-    PG_USER: ${PG_USER}
-    PG_PASSWORD: ${PG_PASSWORD}
-    PG_DATABASE: ${PG_DATABASE}
+    PG_HOST: ${POSTGRES_HOST}
+    PG_PORT: ${POSTGRES_PORT}
+    PG_USER: ${POSTGRES_USER}
+    PG_PASSWORD: ${POSTGRES_PASSWORD}
+    PG_DATABASE: ${POSTGRES_DB}
 
   volumes:
     - ./dags:/opt/airflow/dags
