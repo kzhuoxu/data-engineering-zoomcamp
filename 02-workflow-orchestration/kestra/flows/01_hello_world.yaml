@@ -1,0 +1,54 @@
+id: 01_hello_world
+namespace: zoomcamp
+
+inputs: 
+  # dynamic values passed to the flow at runtime.
+  - id: name
+    type: STRING
+    defaults: Will
+
+concurrency: 
+  # control how many executions of a flow can run at the same time.
+  behavior: FAIL # any furthur ones made while 2 are running will fail
+  limit: 2 # limit of 2 executions, 
+
+variables:
+  # key–value pairs that let you reuse values across tasks.
+  welcome_message: "Hello, {{ inputs.name }}"
+
+tasks:
+  # the steps within a flow. 
+  - id: hello_message
+    type: io.kestra.plugin.core.log.Log
+    message: "{{ render(vars.welcome_message) }}"
+
+  - id: generate_output # an output is generated from the return task
+    type: io.kestra.plugin.core.debug.Return
+    format: FI was generated during this workflow.
+
+  - id: sleep
+    type: io.kestra.plugin.core.flow.Sleep
+    duration: PT15s
+
+  - id: log_output # the generated output is logged in a log task
+    type: io.kestra.plugin.core.log.Log
+    message: "This is an output: {{ outputs.generate_output.value }}"
+  
+  - id: goodbye_message
+    type: io.kestra.plugin.core.log.Log
+    message: "Goodbye, {{ inputs.name }}!"
+
+pluginDefaults:
+  # default values applied to every task of a given type within one or more flows.
+  - type: io.kestra.plugin.core.log.log
+    values:
+      levels: ERROR # make both log tasks send their messages as ERROR level
+
+triggers:
+  # mechanism that automatically starts the execution of a flow.
+  - id: schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 10 * * *" # this means trigger to execute this flow everyday at 10 am
+    inputs:
+      name: Sarah
+    disabled: true
