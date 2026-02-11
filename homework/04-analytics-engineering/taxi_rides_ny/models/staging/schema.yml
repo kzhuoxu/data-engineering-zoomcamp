@@ -1,4 +1,43 @@
 models:
+  - name: stg_fhv_tripdata
+    description: >
+      Staging model for FHV trip data. This model standardizes column names
+    columns:
+      - name: dispatching_base_num
+        description: The TLC Base License Number of the base that dispatched the trip.
+        data_tests:
+          - not_null
+      - name: pickup_datetime
+        description: The date and time of the trip pick-up.
+        data_tests:
+          - not_null
+      - name: dropoff_datetime
+        description: The date and time of the trip drop-off.
+      - name: pickup_location_id
+        description: TLC Taxi Zone where the meter was engaged
+      - name: dropoff_location_id
+        description: TLC Taxi Zone where the meter was disengaged
+      - name: sr_flag
+        description: |
+          Indicates if the trip was a part of a shared ride chain offered by a High
+          Volume FHV company (e.g. Uber Pool, Lyft Line). For shared trips, the value
+          is 1. For non-shared rides, this field is 0 (originally null).
+          NOTE: For most High Volume FHV companies, only shared rides that were
+          requested AND matched to another shared-ride request over the course of
+          the journey are flagged. However, Lyft (base license numbers B02510 +
+          B02844) also flags rides for which a shared ride was requested but another
+          passenger was not successfully matched to share the trip—therefore, trips
+          records with SR_Flag=1 from those two bases could indicate EITHER a first
+          trip in a shared trip chain OR a trip for which a shared ride was requested but
+          never matched. Users should anticipate an overcount of successfully shared
+          trips completed by Lyft. 
+      - name: affiliated_base_number
+        description: |
+          Base number of the base with which the vehicle is affiliated. This
+          must be provided even if the affiliated base is the same as the
+          dispatching base.
+
+      
   - name: stg_green_tripdata
     description: >
       Staging model for green taxi trip data. This model standardizes column names

@@ -10,6 +10,11 @@ sources:
         warn_after: {count: 24, period: hour}
         error_after: {count: 48, period: hour}
     tables:
+      - name: fhv_tripdata
+        description: Raw FHV trip records
+        config:
+          loaded_at_field: pickup_datetime
+
       - name: green_tripdata
         description: Raw green taxi trip records
         config:
